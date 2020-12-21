@@ -52,9 +52,8 @@ export default class Game extends React.Component {
 
       const whiteFallenSoldiers = [];
       const blackFallenSoldiers = [];
-      const isDestEnemyOccupied = Boolean(squares[i]);
-      const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, isDestEnemyOccupied);
 
+      const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, squares);
       if (isMovePossible) {
         if (squares[i] !== null) {
           if (squares[i].player === 1) {
@@ -78,7 +77,8 @@ export default class Game extends React.Component {
         } else {
           let player = this.state.player === 1 ? 2 : 1;
           let turn = this.state.turn === 'white' ? 'black' : 'white';
-
+          // Probably minimax algorithm here or at end of function
+          // Let being checked be very bad when assigning score
           this.setState(oldState => ({
             sourceSelection: -1,
             squares,
@@ -116,8 +116,7 @@ export default class Game extends React.Component {
     return squares.reduce((acc, curr, idx) =>
       acc ||
       (curr &&
-        (curr.getPlayer() === opponent) &&
-        canPieceKillPlayersKing(curr, idx)
+        (curr.getPlayer() === opponent) && canPieceKillPlayersKing(curr, idx)
         && true),
       false)
   }
