@@ -21,6 +21,7 @@ export default class Game extends React.Component {
   }
 
   handleClick(i) {
+    console.log(i);
     const squares = [...this.state.squares];
 
     if (this.state.sourceSelection === -1) {
@@ -78,7 +79,7 @@ export default class Game extends React.Component {
           let player = this.state.player === 1 ? 2 : 1;
           let turn = this.state.turn === 'white' ? 'black' : 'white';
           // Probably minimax algorithm here or at end of function
-          // Let being checked be very bad when assigning score
+          // Let being checked be very bad when assigning score          
           this.setState(oldState => ({
             sourceSelection: -1,
             squares,
@@ -88,11 +89,17 @@ export default class Game extends React.Component {
             status: '',
             turn
           }));
+          console.log(squares);
+
+
+          /*if(player === 2){
+            setTimeout(() => { this.handleClick(8);this.handleClick(16); }, 50);
+          }*/
         }
       }
       else {
         this.setState({
-          status: "Wrong selection. Choose valid source and destination again.",
+          status: "Wrong selection. Choose valid source and destination againt.",
           sourceSelection: -1,
         });
       }
