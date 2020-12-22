@@ -3,7 +3,7 @@ const diagonalDictionaryTRBL = require('../dictionaries/diagonalTopRightBottomLe
 const rowDictionary = require('../dictionaries/row.json');
 const columnDictionary = require('../dictionaries/column.json');
 
-const isSameRow = (src, dest) => {
+const isSameRow = (src, dest) => { // TODO: Make more efficient using math
   return !!(rowDictionary[src] && rowDictionary[src][dest]);
 }
 
@@ -18,10 +18,14 @@ const isSameDiagonal = (src, dest) => {
 
 const isPathClean = (srcToDestPath, squares) => srcToDestPath.reduce((acc, curr) => {return !squares[curr] && acc;}, true)
 
+const isValidIndex = (index) => {
+  return index >= 0 && index <= 63;
+}
 
 module.exports = {
   isSameRow,
   isSameColumn,
   isSameDiagonal,
-  isPathClean
+  isPathClean,
+  isValidIndex
 }
