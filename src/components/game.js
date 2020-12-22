@@ -6,6 +6,9 @@ import King from '../pieces/king'
 import FallenSoldierBlock from './fallen-soldier-block.js';
 import initialiseChessBoard from '../helpers/board-initialiser.js';
 import minimax from '../helpers/minimax';
+import Knight from '../pieces/knight';
+import Pawn from '../pieces/pawn';
+import Bishop from '../pieces/bishop';
 
 export default class Game extends React.Component {
   constructor() {
@@ -22,7 +25,10 @@ export default class Game extends React.Component {
   }
   handleClick(i) {
     const squares = [...this.state.squares];
-
+    if (!!squares[i] && squares[i] instanceof King) {
+      console.log(squares[i].getPossibleMoves(i, squares));
+      //squares[i].isBetweenLeftRightBoundary(0,0);
+    }
     if (this.state.sourceSelection === -1) {
       if (!squares[i] || squares[i].player !== this.state.player) {
         this.setState({ status: "Wrong selection. Choose player " + this.state.player + " pieces." });
@@ -42,6 +48,7 @@ export default class Game extends React.Component {
 
     squares[this.state.sourceSelection].style = { ...squares[this.state.sourceSelection].style, backgroundColor: "" };
 
+    // Prevent moving piece on top of another piece of the same color
     if (squares[i] && squares[i].player === this.state.player) {
       this.setState({
         status: "Wrong selection. Choose valid source and destination again.",
@@ -58,23 +65,37 @@ export default class Game extends React.Component {
         if (squares[i] !== null) {
           if (squares[i].player === 1) {
             whiteFallenSoldiers.push(squares[i]);
+
           }
           else {
             blackFallenSoldiers.push(squares[i]);
+          }
+          if (squares[i] instanceof King) {
+            console.log("Game over");
+            this.setState(oldState => ({
+              sourceSelection: -1,
+              squares,
+              whiteFallenSoldiers: [...oldState.whiteFallenSoldiers, ...whiteFallenSoldiers],
+              blackFallenSoldiers: [...oldState.blackFallenSoldiers, ...blackFallenSoldiers],
+              status: this.state.turn.charAt(0).toUpperCase() + this.state.turn.slice(1) + " wins! Game Over!" // Capitalize the player name
+            }));
+            return;
           }
         }
 
         squares[i] = squares[this.state.sourceSelection];
         squares[this.state.sourceSelection] = null;
 
-        const isCheckMe = this.isCheckForPlayer(squares, this.state.player)
+        const isCheckMe = this.isCheckForPlayer(squares, this.state.player);
 
-        if (isCheckMe) {
+        // TODO: Fix ischeckmate, problem is that if king is check, you can move king but no other pieces.
+        /*if (isCheckMe) {
           this.setState(oldState => ({
             status: "Wrong selection. Choose valid source and destination again. Now you have a check!",
             sourceSelection: -1,
           }))
-        } else {
+        } else*/
+        {
           let player = this.state.player === 1 ? 2 : 1;
           let turn = this.state.turn === 'white' ? 'black' : 'white';
           // Probably minimax algorithm here or at end of function
@@ -88,7 +109,7 @@ export default class Game extends React.Component {
             status: '',
             turn
           }));
-          console.log(squares);
+          //console.log(squares);
 
 
           /*if (player === 2) {
@@ -98,7 +119,7 @@ export default class Game extends React.Component {
       }
       else {
         this.setState({
-          status: "Wrong selection. Choose valid source and destination againt.",
+          status: "Wrong selection. Choose valid source and destination again- impossible move.",
           sourceSelection: -1,
         });
       }
