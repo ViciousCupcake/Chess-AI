@@ -5,6 +5,7 @@ import Board from './board.js';
 import King from '../pieces/king'
 import FallenSoldierBlock from './fallen-soldier-block.js';
 import initialiseChessBoard from '../helpers/board-initialiser.js';
+import minimax from '../helpers/minimax';
 
 export default class Game extends React.Component {
   constructor() {
@@ -19,9 +20,7 @@ export default class Game extends React.Component {
       turn: 'white'
     }
   }
-
   handleClick(i) {
-    console.log(i);
     const squares = [...this.state.squares];
 
     if (this.state.sourceSelection === -1) {
@@ -92,8 +91,8 @@ export default class Game extends React.Component {
           console.log(squares);
 
 
-          /*if(player === 2){
-            setTimeout(() => { this.handleClick(8);this.handleClick(16); }, 50);
+          /*if (player === 2) {
+            setTimeout(minimax, 50, "hello", "world", this);
           }*/
         }
       }

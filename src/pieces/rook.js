@@ -3,7 +3,9 @@ import { isSameRow, isSameColumn, isPathClean } from '../helpers'
 
 export default class Rook extends Piece {
   constructor(player) {
-    super(player, (player === 1 ? "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg"));
+    super(player,
+      (player === 1 ? "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg"),
+      5);
   }
 
   isMovePossible(src, dest, squares) {
