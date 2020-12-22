@@ -9,6 +9,8 @@ import minimax from '../helpers/minimax';
 import Knight from '../pieces/knight';
 import Pawn from '../pieces/pawn';
 import Bishop from '../pieces/bishop';
+import Queen from '../pieces/queen';
+import Rook from '../pieces/rook';
 
 export default class Game extends React.Component {
   constructor() {
@@ -25,7 +27,7 @@ export default class Game extends React.Component {
   }
   handleClick(i) {
     const squares = [...this.state.squares];
-    if (!!squares[i] && squares[i] instanceof King) {
+    if (!!squares[i] && squares[i] instanceof Rook) {
       console.log(squares[i].getPossibleMoves(i, squares));
       //squares[i].isBetweenLeftRightBoundary(0,0);
     }

@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameRow, isSameColumn, isSameDiagonal, isPathClean } from '../helpers'
+import { isSameRow, isSameColumn, isSameDiagonal, isPathClean, isValidIndex } from '../helpers'
 
 export default class Queen extends Piece {
   constructor(player) {
@@ -9,9 +9,43 @@ export default class Queen extends Piece {
   }
 
   isMovePossible(src, dest, squares) {
-    return isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
+    const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
+    return src != dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
   }
 
+  getPossibleMoves(src, squares) {
+    const possibleMoves = [];
+    // column
+    for (var dest = src % 8; isValidIndex(dest); dest += 8) {
+      if (this.isMovePossible(src, dest, squares)) {
+        possibleMoves.push(dest);
+      }
+    }
+
+    // row
+    for (var dest = Math.floor(src / 8) * 8; dest < (Math.floor(src / 8) * 8 + 8); dest++) {
+      if (this.isMovePossible(src, dest, squares)) {
+        possibleMoves.push(dest);
+      }
+    }
+
+    // diagonal
+    const diagonalDictionaryTLBR = require('../dictionaries/diagonalTopLeftBottomRight.json');
+    const diagonalDictionaryTRBL = require('../dictionaries/diagonalTopRightBottomLeft.json');
+    Object.keys(diagonalDictionaryTLBR[src]).forEach((current) => {
+      current = Number(current);
+      if (this.isMovePossible(src, current, squares)) {
+        possibleMoves.push(current);
+      }
+    });
+    Object.keys(diagonalDictionaryTRBL[src]).forEach((current) => {
+      current = Number(current);
+      if (this.isMovePossible(src, current, squares)) {
+        possibleMoves.push(current);
+      }
+    });
+    return possibleMoves;
+  }
   /**
    * get path between src and dest (src and dest exclusive)
    * @param  {num} src  
@@ -28,15 +62,15 @@ export default class Queen extends Piece {
       pathStart = src;
       pathEnd = dest;
     }
-    if (Math.abs(src - dest) % 8 === 0) {
+    if (Math.abs(src - dest) % 8 === 0 && isSameColumn(src, dest)) {
       incrementBy = 8;
       pathStart += 8;
     }
-    else if (Math.abs(src - dest) % 9 === 0) {
+    else if (Math.abs(src - dest) % 9 === 0 && isSameDiagonal(src, dest)) {
       incrementBy = 9;
       pathStart += 9;
     }
-    else if (Math.abs(src - dest) % 7 === 0) {
+    else if (Math.abs(src - dest) % 7 === 0 && isSameDiagonal(src, dest)) {
       incrementBy = 7;
       pathStart += 7;
     }

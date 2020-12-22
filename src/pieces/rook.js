@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameRow, isSameColumn, isPathClean } from '../helpers'
+import { isSameRow, isSameColumn, isPathClean, isValidIndex } from '../helpers'
 
 export default class Rook extends Piece {
   constructor(player) {
@@ -9,7 +9,27 @@ export default class Rook extends Piece {
   }
 
   isMovePossible(src, dest, squares) {
-    return isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameColumn(src, dest) || isSameRow(src, dest));
+    const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
+    return src != dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameColumn(src, dest) || isSameRow(src, dest));
+  }
+
+  getPossibleMoves(src, squares) {
+    const possibleMoves = [];
+    // column
+    // TODO: Optimize by using while loop starting from src and going outwards until reaching a piece
+    for (var dest = src % 8; isValidIndex(dest); dest += 8) {
+      if (this.isMovePossible(src, dest, squares)) {
+        possibleMoves.push(dest);
+      }
+    }
+
+    // row
+    for (var dest = Math.floor(src / 8) * 8; dest < (Math.floor(src / 8) * 8 + 8); dest++) {
+      if (this.isMovePossible(src, dest, squares)) {
+        possibleMoves.push(dest);
+      }
+    }
+    return possibleMoves;
   }
 
   /**
@@ -28,7 +48,7 @@ export default class Rook extends Piece {
       pathStart = src;
       pathEnd = dest;
     }
-    if (Math.abs(src - dest) % 8 === 0) {
+    if (Math.abs(src - dest) % 8 === 0 && isSameColumn(src, dest)) {
       incrementBy = 8;
       pathStart += 8;
     }

@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameDiagonal, isSameRow } from '../helpers'
+import { isSameDiagonal, isSameRow, isValidIndex } from '../helpers'
 
 export default class King extends Piece {
   constructor(player) {
@@ -8,15 +8,29 @@ export default class King extends Piece {
       50);
   }
 
-  isMovePossible(src, dest) {
-    return ((src - 9 === dest && isSameDiagonal(src, dest)) ||
-      src - 8 === dest ||
-      (src - 7 === dest && isSameDiagonal(src, dest)) ||
-      (src + 1 === dest && isSameRow(src, dest)) ||
-      (src + 9 === dest && isSameDiagonal(src, dest)) ||
-      src + 8 === dest ||
-      (src + 7 === dest && isSameDiagonal(src, dest)) ||
-      (src - 1 === dest && isSameRow(src, dest)))
+  isMovePossible(src, dest, squares) {
+    return isValidIndex(dest) && // destination is valid index
+      (!squares[dest] ||  // destination is null or
+        squares[dest].player !== this.player) && // destination is occupied by an enemy
+      ((src - 9 === dest && isSameDiagonal(src, dest)) ||
+        src - 8 === dest ||
+        (src - 7 === dest && isSameDiagonal(src, dest)) ||
+        (src + 1 === dest && isSameRow(src, dest)) ||
+        (src + 9 === dest && isSameDiagonal(src, dest)) ||
+        src + 8 === dest ||
+        (src + 7 === dest && isSameDiagonal(src, dest)) ||
+        (src - 1 === dest && isSameRow(src, dest)));
+  }
+
+  getPossibleMoves(src, squares) {
+    const possibleMoves = [];
+    const possibleDifferences = [-9, -8, -7, 1, 9, 8, 7, -1];
+    possibleDifferences.forEach((currentDiff) => {
+      if (isValidIndex(src + currentDiff) && this.isMovePossible(src, src + currentDiff, squares)) {
+        possibleMoves.push(src + currentDiff);
+      }
+    });
+    return possibleMoves;
   }
 
   /**
