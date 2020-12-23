@@ -5,7 +5,7 @@ import Board from './board.js';
 import King from '../pieces/king'
 import FallenSoldierBlock from './fallen-soldier-block.js';
 import { initialiseChessBoard, getInitialSoldierIndices } from '../helpers/board-initialiser.js';
-import minimax from '../helpers/minimax';
+import minimaxRunner from '../helpers/minimax';
 import Knight from '../pieces/knight';
 import Pawn from '../pieces/pawn';
 import Bishop from '../pieces/bishop';
@@ -32,11 +32,12 @@ export default class Game extends React.Component {
     const squares = [...this.state.squares];
     if (!!squares[i] && squares[i] instanceof Piece) {
       //console.log(squares[i].getPossibleMoves(i, squares));
-      console.log(squares[i].getValue());
+      /*console.log(squares[i].getValue());
       console.log("White");
       console.log(this.state.whiteAliveSoldiers);
       console.log("Black");
-      console.log(this.state.blackAliveSoldiers);
+      console.log(this.state.blackAliveSoldiers);*/
+      
       //squares[i].isBetweenLeftRightBoundary(0,0);
     }
     if (this.state.sourceSelection === -1) { // If no piece is already selected (i.e. first click)
@@ -138,9 +139,10 @@ export default class Game extends React.Component {
           }));
           //console.log(squares);
 
+          //setTimeout(minimaxRunner, 50, "hello", "world", this, squares, whiteAliveSoldiers, blackAliveSoldiers);
 
           /*if (player === 2) {
-            setTimeout(minimax, 50, "hello", "world", this);
+            setTimeout(minimaxRunner, 50, "hello", "world", this);
           }*/
         }
       }
