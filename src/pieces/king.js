@@ -33,6 +33,10 @@ export default class King extends Piece {
     return possibleMoves;
   }
 
+  getValue(){
+    return this.value;
+  }
+
   /**
    * always returns empty array because of one step
    * @return {[]}

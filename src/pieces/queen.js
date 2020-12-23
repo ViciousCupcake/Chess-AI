@@ -10,20 +10,21 @@ export default class Queen extends Piece {
 
   isMovePossible(src, dest, squares) {
     const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
-    return src != dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
+    return src !== dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
   }
 
   getPossibleMoves(src, squares) {
     const possibleMoves = [];
+    var dest = 1000;
     // column
-    for (var dest = src % 8; isValidIndex(dest); dest += 8) {
+    for (dest = src % 8; isValidIndex(dest); dest += 8) {
       if (this.isMovePossible(src, dest, squares)) {
         possibleMoves.push(dest);
       }
     }
 
     // row
-    for (var dest = Math.floor(src / 8) * 8; dest < (Math.floor(src / 8) * 8 + 8); dest++) {
+    for (dest = Math.floor(src / 8) * 8; dest < (Math.floor(src / 8) * 8 + 8); dest++) {
       if (this.isMovePossible(src, dest, squares)) {
         possibleMoves.push(dest);
       }
@@ -46,6 +47,11 @@ export default class Queen extends Piece {
     });
     return possibleMoves;
   }
+
+  getValue() {
+    return this.value;
+  }
+  
   /**
    * get path between src and dest (src and dest exclusive)
    * @param  {num} src  

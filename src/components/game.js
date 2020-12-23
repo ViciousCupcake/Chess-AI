@@ -29,7 +29,8 @@ export default class Game extends React.Component {
   handleClick(i) {
     const squares = [...this.state.squares];
     if (!!squares[i] && squares[i] instanceof Piece && squares[i].player === 1) {
-      console.log(squares[i].getPossibleMoves(i, squares));
+      //console.log(squares[i].getPossibleMoves(i, squares));
+      console.log(squares[i].getValue());
       //squares[i].isBetweenLeftRightBoundary(0,0);
     }
     if (this.state.sourceSelection === -1) {

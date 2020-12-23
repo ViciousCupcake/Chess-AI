@@ -48,6 +48,10 @@ export default class Pawn extends Piece {
     return possibleMoves;
   }
 
+  getValue(){
+    return this.value;
+  }
+
   /**
    * returns array of one if pawn moves two steps, else returns empty array  
    * @param  {number} src - initial position

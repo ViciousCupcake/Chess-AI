@@ -44,6 +44,10 @@ export default class Knight extends Piece {
     return possibleMoves;
   }
 
+  getValue() {
+    return this.value;
+  }
+
   /**
    * returns true if knight doesn't pass through the left or right boundary (i.e. knight doesnt jump from the left side to the right side)
    * @param {number} src - Initial position

@@ -10,7 +10,7 @@ export default class Bishop extends Piece {
 
   isMovePossible(src, dest, squares) {
     const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
-    return src != dest && isPathClean(this.getSrcToDestPath(src, dest), squares) && isSameDiagonal(src, dest) && (!squares[dest] || isDestEnemyOccupied);
+    return src !== dest && isPathClean(this.getSrcToDestPath(src, dest), squares) && isSameDiagonal(src, dest) && (!squares[dest] || isDestEnemyOccupied);
   }
 
   getPossibleMoves(src, squares) {
@@ -32,6 +32,11 @@ export default class Bishop extends Piece {
     });
     return possibleMoves;
   }
+
+  getValue(){
+    return this.value;
+  }
+  
   /**
    * get path between src and dest (src and dest exclusive)
    * @param  {num} src  
