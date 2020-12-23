@@ -36,16 +36,16 @@ export const initialiseChessBoard = () => {
   return squares;
 }
 export const getInitialSoldierIndices = (player) => {
-  const output = [];
+  const output = new Set();
   var index = 1000;
   if(player === 2){
     for(index = 0; index < 16; index++){
-      output.push(index);
+      output.add(index);
     }
   }
   else if(player === 1){
     for(index = 48; index < 64; index++){
-      output.push(index);
+      output.add(index);
     }
   }
   return output;

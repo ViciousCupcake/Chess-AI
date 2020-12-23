@@ -79,20 +79,12 @@ export default class Game extends React.Component {
           if (squares[i].player === 1) {
             whiteFallenSoldiers.push(squares[i]);
             // Remove dead piece from aliveSoldiers array
-            for (index = 0; index < whiteAliveSoldiers.length; index++) {
-              if (whiteAliveSoldiers[index] === i) {
-                whiteAliveSoldiers.splice(index, 1);
-              }
-            }
+            whiteAliveSoldiers.delete(i);
           }
           else {
             blackFallenSoldiers.push(squares[i]);
             // Remove dead piece from aliveSoldiers array
-            for (index = 0; index < blackAliveSoldiers.length; index++) {
-              if (blackAliveSoldiers[index] === i) {
-                blackAliveSoldiers.splice(index, 1);
-              }
-            }
+            blackAliveSoldiers.delete(i);
           }
           if (squares[i] instanceof King) {
             console.log("Game over");
@@ -111,20 +103,12 @@ export default class Game extends React.Component {
         squares[this.state.sourceSelection] = null;
         // remove sourceSelection add I (i.e. update aliveSoldiers arrays)
         if(this.state.player === 1){ // White
-          for (index = 0; index < whiteAliveSoldiers.length; index++) {
-            if (whiteAliveSoldiers[index] === this.state.sourceSelection) {
-              whiteAliveSoldiers.splice(index, 1);
-            }
-          }
-          whiteAliveSoldiers.push(i);
+          whiteAliveSoldiers.delete(this.state.sourceSelection);
+          whiteAliveSoldiers.add(i);
         }
-        else if(this.state.player === 2){
-          for (index = 0; index < blackAliveSoldiers.length; index++) {
-            if (blackAliveSoldiers[index] === this.state.sourceSelection) {
-              blackAliveSoldiers.splice(index, 1);
-            }
-          }
-          blackAliveSoldiers.push(i);
+        else if(this.state.player === 2){ // Black
+          blackAliveSoldiers.delete(this.state.sourceSelection);
+          blackAliveSoldiers.add(i);
         }
 
         const isCheckMe = this.isCheckForPlayer(squares, this.state.player);
@@ -146,8 +130,8 @@ export default class Game extends React.Component {
             squares,
             whiteFallenSoldiers: [...oldState.whiteFallenSoldiers, ...whiteFallenSoldiers],
             blackFallenSoldiers: [...oldState.blackFallenSoldiers, ...blackFallenSoldiers],
-            whiteAliveSoldiers: [...whiteAliveSoldiers],
-            blackAliveSoldiers: [...blackAliveSoldiers],
+            whiteAliveSoldiers: whiteAliveSoldiers,
+            blackAliveSoldiers: blackAliveSoldiers,
             player,
             status: '',
             turn
