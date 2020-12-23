@@ -4,7 +4,7 @@ import '../index.css';
 import Board from './board.js';
 import King from '../pieces/king'
 import FallenSoldierBlock from './fallen-soldier-block.js';
-import initialiseChessBoard from '../helpers/board-initialiser.js';
+import { initialiseChessBoard, getInitialSoldierIndices } from '../helpers/board-initialiser.js';
 import minimax from '../helpers/minimax';
 import Knight from '../pieces/knight';
 import Pawn from '../pieces/pawn';
@@ -20,6 +20,8 @@ export default class Game extends React.Component {
       squares: initialiseChessBoard(),
       whiteFallenSoldiers: [],
       blackFallenSoldiers: [],
+      whiteAliveSoldiers: getInitialSoldierIndices(1),
+      blackAliveSoldiers: getInitialSoldierIndices(2),
       player: 1,
       sourceSelection: -1,
       status: '',
@@ -28,13 +30,17 @@ export default class Game extends React.Component {
   }
   handleClick(i) {
     const squares = [...this.state.squares];
-    if (!!squares[i] && squares[i] instanceof Piece && squares[i].player === 1) {
+    if (!!squares[i] && squares[i] instanceof Piece) {
       //console.log(squares[i].getPossibleMoves(i, squares));
       console.log(squares[i].getValue());
+      console.log("White");
+      console.log(this.state.whiteAliveSoldiers);
+      console.log("Black");
+      console.log(this.state.blackAliveSoldiers);
       //squares[i].isBetweenLeftRightBoundary(0,0);
     }
-    if (this.state.sourceSelection === -1) {
-      if (!squares[i] || squares[i].player !== this.state.player) {
+    if (this.state.sourceSelection === -1) { // If no piece is already selected (i.e. first click)
+      if (!squares[i] || squares[i].player !== this.state.player) { // If player selected null piece or a piece that isn't under control of player
         this.setState({ status: "Wrong selection. Choose player " + this.state.player + " pieces." });
         if (squares[i]) {
           squares[i].style = { ...squares[i].style, backgroundColor: "" };
@@ -63,16 +69,30 @@ export default class Game extends React.Component {
 
       const whiteFallenSoldiers = [];
       const blackFallenSoldiers = [];
+      const whiteAliveSoldiers = this.state.whiteAliveSoldiers;
+      const blackAliveSoldiers = this.state.blackAliveSoldiers;
+      var index = 1000;
 
       const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, squares);
       if (isMovePossible) {
         if (squares[i] !== null) {
           if (squares[i].player === 1) {
             whiteFallenSoldiers.push(squares[i]);
-
+            // Remove dead piece from aliveSoldiers array
+            for (index = 0; index < whiteAliveSoldiers.length; index++) {
+              if (whiteAliveSoldiers[index] === i) {
+                whiteAliveSoldiers.splice(index, 1);
+              }
+            }
           }
           else {
             blackFallenSoldiers.push(squares[i]);
+            // Remove dead piece from aliveSoldiers array
+            for (index = 0; index < blackAliveSoldiers.length; index++) {
+              if (blackAliveSoldiers[index] === i) {
+                blackAliveSoldiers.splice(index, 1);
+              }
+            }
           }
           if (squares[i] instanceof King) {
             console.log("Game over");
@@ -89,6 +109,23 @@ export default class Game extends React.Component {
 
         squares[i] = squares[this.state.sourceSelection];
         squares[this.state.sourceSelection] = null;
+        // remove sourceSelection add I (i.e. update aliveSoldiers arrays)
+        if(this.state.player === 1){ // White
+          for (index = 0; index < whiteAliveSoldiers.length; index++) {
+            if (whiteAliveSoldiers[index] === this.state.sourceSelection) {
+              whiteAliveSoldiers.splice(index, 1);
+            }
+          }
+          whiteAliveSoldiers.push(i);
+        }
+        else if(this.state.player === 2){
+          for (index = 0; index < blackAliveSoldiers.length; index++) {
+            if (blackAliveSoldiers[index] === this.state.sourceSelection) {
+              blackAliveSoldiers.splice(index, 1);
+            }
+          }
+          blackAliveSoldiers.push(i);
+        }
 
         const isCheckMe = this.isCheckForPlayer(squares, this.state.player);
 
@@ -109,6 +146,8 @@ export default class Game extends React.Component {
             squares,
             whiteFallenSoldiers: [...oldState.whiteFallenSoldiers, ...whiteFallenSoldiers],
             blackFallenSoldiers: [...oldState.blackFallenSoldiers, ...blackFallenSoldiers],
+            whiteAliveSoldiers: [...whiteAliveSoldiers],
+            blackAliveSoldiers: [...blackAliveSoldiers],
             player,
             status: '',
             turn
