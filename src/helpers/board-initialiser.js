@@ -27,7 +27,7 @@ export const initialiseChessBoard = () => {
   squares[58] = new Bishop(1);
   squares[61] = new Bishop(1);
 
-  squares[3] = new Queen(2);
+  squares[3] = new Queen(2); // TODO: king, queen positions are swapped
   squares[4] = new King(2);
 
   squares[59] = new Queen(1);

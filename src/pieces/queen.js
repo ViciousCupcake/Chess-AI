@@ -33,25 +33,29 @@ export default class Queen extends Piece {
     // diagonal
     const diagonalDictionaryTLBR = require('../dictionaries/diagonalTopLeftBottomRight.json');
     const diagonalDictionaryTRBL = require('../dictionaries/diagonalTopRightBottomLeft.json');
-    Object.keys(diagonalDictionaryTLBR[src]).forEach((current) => {
-      current = Number(current);
-      if (this.isMovePossible(src, current, squares)) {
-        possibleMoves.push(current);
-      }
-    });
-    Object.keys(diagonalDictionaryTRBL[src]).forEach((current) => {
-      current = Number(current);
-      if (this.isMovePossible(src, current, squares)) {
-        possibleMoves.push(current);
-      }
-    });
+    if (!!diagonalDictionaryTLBR[src]) {
+      Object.keys(diagonalDictionaryTLBR[src]).forEach((current) => {
+        current = Number(current);
+        if (this.isMovePossible(src, current, squares)) {
+          possibleMoves.push(current);
+        }
+      });
+    }
+    if (!!diagonalDictionaryTRBL[src]) {
+      Object.keys(diagonalDictionaryTRBL[src]).forEach((current) => {
+        current = Number(current);
+        if (this.isMovePossible(src, current, squares)) {
+          possibleMoves.push(current);
+        }
+      });
+    }
     return possibleMoves;
   }
 
   getValue() {
     return this.value;
   }
-  
+
   /**
    * get path between src and dest (src and dest exclusive)
    * @param  {num} src  
