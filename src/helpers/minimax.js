@@ -28,38 +28,24 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
     }
     // convert squares to a map for better access
     var map = squares.reduce((mapObj, obj, index) => {
-        //console.log(map);
         if (obj != null) {
             mapObj.set(index, obj);
-            /*console.log(index);
-            console.log(obj);
-            console.log(mapObj);*/
-
         }
         return mapObj;
     }, new Map());
-    /*var map = new Map();
-    console.log(map);
-    var indexCounter = 1000;
-    for(indexCounter = 0; indexCounter < squares.length; indexCounter++){
-        if(squares[indexCounter] != null){
-            map.set(indexCounter, squares[indexCounter]);
-            console.log(indexCounter);
-            console.log(squares[indexCounter]);
-            console.log(map);
-        }
-    }*/
-    //console.log(squares);
-    //console.log(map);
+
     const isMaximizingPlayer = player === 1 ? true : false;
     var bestMove = isMaximizingPlayer ? -9999 : 9999;
-    var bestMoveFound = 1000;
-    var bestPieceToMove = 1000;
+    var bestDest = 1000;
+    var bestSrc = 1000;
+    var alpha = -10000;
+    var beta = 10000;
     var initialAliveSoldiers = undefined;
     if (isMaximizingPlayer) {
         initialAliveSoldiers = new Set(whiteAliveSoldiers);
-        initialAliveSoldiers.forEach(src => {
-            map.get(src).getPossibleMoves(src, squares).forEach(dest => {
+        outerMaximizingLoop:
+        for(var src of initialAliveSoldiers) {
+            for(var dest of map.get(src).getPossibleMoves(src, squares)) {
                 var lostPiece = undefined;
                 var lostPieceObj = undefined;
                 // If destination results in opposite side losing a piece
@@ -74,7 +60,7 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                 whiteAliveSoldiers.add(dest);
                 map.set(dest, map.get(src));
                 map.delete(src);
-                var score = minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth - 1, 2, -10000, 10000, squares);
+                var score = minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth - 1, 2, alpha, beta, squares);
                 // Undo the previous move (better to undo than make copies of arrays, undo is better big-O)
                 map.set(src, map.get(dest));
                 map.delete(dest);
@@ -87,16 +73,22 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                 }
                 if (score > bestMove) {
                     bestMove = score;
-                    bestMoveFound = dest;
-                    bestPieceToMove = src;
+                    bestDest = dest;
+                    bestSrc = src;
                 }
-            });
-        });
+
+                alpha = Math.max(alpha, bestMove);
+                if (alpha >= beta) {
+                    break outerMaximizingLoop;
+                }
+            }
+        }
     }
     else { // black's turn
         initialAliveSoldiers = new Set(blackAliveSoldiers);
-        initialAliveSoldiers.forEach(src => {
-            map.get(src).getPossibleMoves(src, squares).forEach(dest => {
+        outerMinimizingLoop:
+        for(var src of initialAliveSoldiers) {
+            for(var dest of map.get(src).getPossibleMoves(src, squares)) {
                 var lostPiece = undefined;
                 var lostPieceObj = undefined;
                 //var copyOfMap = new Map(map);
@@ -126,15 +118,20 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                 //console.log(compareMaps(map, copyOfMap));
                 if (score < bestMove) {
                     bestMove = score;
-                    bestMoveFound = dest;
-                    bestPieceToMove = src;
+                    bestDest = dest;
+                    bestSrc = src;
                 }
-            });
-        });
+
+                beta = Math.min(beta, bestMove);
+                if (beta <= alpha) {
+                    break outerMinimizingLoop;
+                }
+            }
+        }
     }
     console.log("Score: " + bestMove);
-    console.log("Best Source: " + bestPieceToMove);
-    console.log("Best Destination: " + bestMoveFound);
+    console.log("Best Source: " + bestSrc);
+    console.log("Best Destination: " + bestDest);
 }
 
 /**
