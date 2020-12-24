@@ -37,7 +37,7 @@ export default class Game extends React.Component {
       console.log(this.state.whiteAliveSoldiers);
       console.log("Black");
       console.log(this.state.blackAliveSoldiers);*/
-      
+
       //squares[i].isBetweenLeftRightBoundary(0,0);
     }
     if (this.state.sourceSelection === -1) { // If no piece is already selected (i.e. first click)
@@ -103,11 +103,11 @@ export default class Game extends React.Component {
         squares[i] = squares[this.state.sourceSelection];
         squares[this.state.sourceSelection] = null;
         // remove sourceSelection add I (i.e. update aliveSoldiers arrays)
-        if(this.state.player === 1){ // White
+        if (this.state.player === 1) { // White
           whiteAliveSoldiers.delete(this.state.sourceSelection);
           whiteAliveSoldiers.add(i);
         }
-        else if(this.state.player === 2){ // Black
+        else if (this.state.player === 2) { // Black
           blackAliveSoldiers.delete(this.state.sourceSelection);
           blackAliveSoldiers.add(i);
         }
@@ -141,9 +141,12 @@ export default class Game extends React.Component {
 
           //setTimeout(minimaxRunner, 50, "hello", "world", this, squares, whiteAliveSoldiers, blackAliveSoldiers);
 
-          /*if (player === 2) {
-            setTimeout(minimaxRunner, 50, "hello", "world", this);
-          }*/
+          if (player === 2) {
+            setTimeout(minimaxRunner, 50, squares,
+              this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
+              this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
+              1, 2, this);
+          }
         }
       }
       else {
