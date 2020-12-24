@@ -62,7 +62,6 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
             map.get(src).getPossibleMoves(src, squares).forEach(dest => {
                 var lostPiece = undefined;
                 var lostPieceObj = undefined;
-                var copyOfMap = new Map(map);
                 // If destination results in opposite side losing a piece
                 if (blackAliveSoldiers.has(dest)) {
                     blackAliveSoldiers.delete(dest);
@@ -86,7 +85,6 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     blackFallenSoldiers.pop();
                     map.set(dest, lostPieceObj);
                 }
-                console.log(compareMaps(map, copyOfMap));
                 if (score > bestMove) {
                     bestMove = score;
                     bestMoveFound = dest;
@@ -101,7 +99,7 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
             map.get(src).getPossibleMoves(src, squares).forEach(dest => {
                 var lostPiece = undefined;
                 var lostPieceObj = undefined;
-                var copyOfMap = new Map(map);
+                //var copyOfMap = new Map(map);
                 // If destination results in opposite side losing a piece
                 if (whiteAliveSoldiers.has(dest)) {
                     whiteAliveSoldiers.delete(dest);
@@ -125,7 +123,7 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     whiteFallenSoldiers.pop();
                     map.set(dest, lostPieceObj);
                 }
-                console.log(compareMaps(map, copyOfMap));
+                //console.log(compareMaps(map, copyOfMap));
                 if (score < bestMove) {
                     bestMove = score;
                     bestMoveFound = dest;
