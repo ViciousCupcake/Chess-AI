@@ -62,6 +62,7 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
             map.get(src).getPossibleMoves(src, squares).forEach(dest => {
                 var lostPiece = undefined;
                 var lostPieceObj = undefined;
+                var copyOfMap = new Map(map);
                 // If destination results in opposite side losing a piece
                 if (blackAliveSoldiers.has(dest)) {
                     blackAliveSoldiers.delete(dest);
@@ -70,19 +71,22 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     map.delete(dest);
                     lostPiece = dest;
                 }
-                swapInMap(map, src, dest);
                 whiteAliveSoldiers.delete(src);
                 whiteAliveSoldiers.add(dest);
+                map.set(dest, map.get(src));
+                map.delete(src);
                 var score = minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth - 1, 2, -10000, 10000, squares);
                 // Undo the previous move (better to undo than make copies of arrays, undo is better big-O)
+                map.set(src, map.get(dest));
+                map.delete(dest);
+                whiteAliveSoldiers.delete(dest);
+                whiteAliveSoldiers.add(src);
                 if (lostPiece !== undefined) {
                     blackAliveSoldiers.add(lostPiece);
                     blackFallenSoldiers.pop();
                     map.set(dest, lostPieceObj);
                 }
-                whiteAliveSoldiers.delete(dest);
-                whiteAliveSoldiers.add(src);
-                swapInMap(map, src, dest);
+                console.log(compareMaps(map, copyOfMap));
                 if (score > bestMove) {
                     bestMove = score;
                     bestMoveFound = dest;
@@ -106,18 +110,10 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     map.delete(dest);
                     lostPiece = dest;
                 }
-                //swapInMap(map, src, dest);
                 blackAliveSoldiers.delete(src);
                 blackAliveSoldiers.add(dest);
                 map.set(dest, map.get(src));
                 map.delete(src);
-                /*console.log(src+" "+dest);
-                console.log(squares);
-                map.forEach((value, key)=>{
-                    console.log(key);
-                    console.log(value);
-                });
-                console.log("Size: "+map.size);*/
                 var score = minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth - 1, 1, -10000, 10000, squares);
                 // Undo the previous move (better to undo than make copies of arrays, undo is better big-O)
                 map.set(src, map.get(dest));
@@ -129,8 +125,6 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     whiteFallenSoldiers.pop();
                     map.set(dest, lostPieceObj);
                 }
-
-                //swapInMap(map, src, dest);
                 console.log(compareMaps(map, copyOfMap));
                 if (score < bestMove) {
                     bestMove = score;
