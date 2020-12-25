@@ -1,5 +1,5 @@
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
+  font: 3vmin "Jura", sans-serif;
   margin: 20px;
   background-color: #000000;
 }
@@ -26,14 +26,14 @@ ul {
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 64px;
+  height: 7vmin;
   /*margin-right: -1px;
   margin-top: -1px;*/
   padding: 0;
   text-align: center;
-  width: 64px;
+  width: 7vmin;
   background-repeat: no-repeat;
-  background-size: 64px 64px;
+  background-size: 7vmin 7vmin;
 }
 
 .square:focus {
@@ -44,16 +44,45 @@ ul {
   background: #ddd;
 }
 
-.game-info {
-  /*margin-left: 20px;*/
+.game-board {
+  margin-top: 5vmin;
+}
+
+.logo {
+  position: absolute;
+  left: 4vmin;
+  top: 4vmin;
+  font-size: 6vmin;
+  color: #EFEFEF;
 }
 
 
-.icons-attribution,
+.logo {
+  position: absolute;
+  left: 1vmin;
+  top: 1vmin;
+  font-size: 2vmin;
+  color: #EFEFEF;
+  transform: rotate(90deg);
+}
+
+
+.turn-label {
+  color: #EFEFEF;
+}
+
+
+.icons-attribution {
+  margin-bottom: 20px;
+  color: #EFEFEF;
+  font-size: 2vmin;
+}
+
 .game-status,
 .fallen-soldier-block {
-  margin-top: 20px;
-  min-height: 50px;
+  /*margin-top: 20px;
+  min-height: 50px;*/
+  margin-bottom: 20px;
 }
 
 
@@ -69,7 +98,7 @@ ul {
 
 .game {
   margin: auto;
-  width: 512px;
+  width: 56vmin;
 
 }
 
@@ -77,14 +106,14 @@ ul {
   background-color: rgb(215, 236, 254);
   border-radius: 15px;
   margin: auto;
-  width: 512px;
-  border: 3px solid #05f5ba;
+  width: 56vmin;
+  /*border: 3px solid #05f5ba;*/
 }
 
 
 #player-turn-box {
-  width: 48px;
-  height: 48px;
+  width: 7vmin;
+  height: 7vmin;
   border: 1px solid #FFFFFF;
   margin-bottom: 10px;
 }

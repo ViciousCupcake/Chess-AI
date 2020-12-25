@@ -187,9 +187,6 @@ export default class Game extends React.Component {
   }
 
   render() {
-    const divStyle = {
-      color: '#EFEFEF'
-    };
     return (
       <div>
         <div className="game">
@@ -200,7 +197,7 @@ export default class Game extends React.Component {
             />
           </div>
           <div className="game-info">
-            <h3 style={divStyle}>Turn</h3>
+            <h3 className="turn-label">Turn</h3>
             <div id="player-turn-box" style={{ backgroundColor: this.state.turn }}>
 
             </div>
