@@ -9,8 +9,14 @@ export default class Rook extends Piece {
   }
 
   isMovePossible(src, dest, squares) {
-    const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
-    return src !== dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameColumn(src, dest) || isSameRow(src, dest));
+    if (squares instanceof Map) {
+      const isDestEnemyOccupied = Boolean(squares.get(dest)) && squares.get(dest).player !== this.player;
+      return src !== dest && (!squares.get(dest) || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameColumn(src, dest) || isSameRow(src, dest));
+    }
+    else {
+      const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
+      return src !== dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameColumn(src, dest) || isSameRow(src, dest));
+    }
   }
 
   getPossibleMoves(src, squares) {

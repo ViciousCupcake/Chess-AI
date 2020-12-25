@@ -16,13 +16,24 @@ export default class Knight extends Piece {
    */
   isMovePossible(src, dest, squares) {
     const possibleDifferences = [-17, -10, 6, 15, -15, -6, 10, 17];
-    return possibleDifferences.reduce((total, currentDiff) => {
-      return total ||
-        (src + currentDiff === dest &&
-          !isSameRow(src, dest) &&
-          this.isBetweenLeftRightBoundary(src, dest) &&
-          (!squares[dest] /* not null*/ || squares[src].player !== squares[dest].player));
-    }, false);
+    if (squares instanceof Map) {
+      return possibleDifferences.reduce((total, currentDiff) => {
+        return total ||
+          (src + currentDiff === dest &&
+            !isSameRow(src, dest) &&
+            this.isBetweenLeftRightBoundary(src, dest) &&
+            (!squares.get(dest) /* not null*/ || squares.get(src).player !== squares.get(dest).player));
+      }, false);
+    }
+    else {
+      return possibleDifferences.reduce((total, currentDiff) => {
+        return total ||
+          (src + currentDiff === dest &&
+            !isSameRow(src, dest) &&
+            this.isBetweenLeftRightBoundary(src, dest) &&
+            (!squares[dest] /* not null*/ || squares[src].player !== squares[dest].player));
+      }, false);
+    }
     /*return ((src - 17 === dest && !isSameRow(src, dest) && squares[src].player !== squares[dest].player) ||
       (src - 10 === dest && !isSameRow(src, dest)) ||
       (src + 6 === dest && !isSameRow(src, dest)) ||

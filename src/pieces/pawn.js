@@ -13,8 +13,17 @@ export default class Pawn extends Piece {
   }
 
   isMovePossible(src, dest, squares) {
-    const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
-    const isDestinationOK = isPathClean(this.getSrcToDestPath(src, dest), squares) && (!squares[dest] || isDestEnemyOccupied);
+    var isDestEnemyOccupied = undefined;
+    var isDestinationOK = undefined;
+    if (squares instanceof Map) {
+      isDestEnemyOccupied = Boolean(squares.get(dest)) && squares.get(dest).player !== this.player;
+      isDestinationOK = isPathClean(this.getSrcToDestPath(src, dest), squares) && (!squares.get(dest) || isDestEnemyOccupied);
+    }
+    else {
+      isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
+      isDestinationOK = isPathClean(this.getSrcToDestPath(src, dest), squares) && (!squares[dest] || isDestEnemyOccupied);
+    }
+
     if (this.player === 1) {
       if ((dest === src - 8 && !isDestEnemyOccupied) || (dest === src - 16 && !isDestEnemyOccupied && this.initialPositions[1].indexOf(src) !== -1)) {
         return isDestinationOK;
@@ -48,7 +57,7 @@ export default class Pawn extends Piece {
     return possibleMoves;
   }
 
-  getValue(){
+  getValue() {
     return this.value;
   }
 

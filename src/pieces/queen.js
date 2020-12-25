@@ -9,8 +9,15 @@ export default class Queen extends Piece {
   }
 
   isMovePossible(src, dest, squares) {
-    const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
-    return src !== dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
+    if (squares instanceof Map) {
+      const isDestEnemyOccupied = Boolean(squares.get(dest)) && squares.get(dest).player !== this.player;
+      return src !== dest && (!squares.get(dest) || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
+    }
+    else {
+      const isDestEnemyOccupied = Boolean(squares[dest]) && squares[dest].player !== this.player;
+      return src !== dest && (!squares[dest] || isDestEnemyOccupied) && isPathClean(this.getSrcToDestPath(src, dest), squares) && (isSameDiagonal(src, dest) || isSameRow(src, dest) || isSameColumn(src, dest));
+    }
+
   }
 
   getPossibleMoves(src, squares) {
