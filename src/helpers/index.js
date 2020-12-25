@@ -76,7 +76,7 @@ export const compareMapsAndSets = (map1, set1, set2) => {
 }
 
 
-module.exports = {
+/*module.exports = {
   isSameRow,
   isSameColumn,
   isSameDiagonal,
@@ -84,4 +84,4 @@ module.exports = {
   isValidIndex,
   compareMaps,
   compareMapsAndSets
-}
+}*/
