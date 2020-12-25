@@ -48,7 +48,7 @@ export default class Game extends React.Component {
         }
       }
       else {
-        squares[i].style = { ...squares[i].style, backgroundColor: "RGB(111,143,114)" }; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
+        squares[i].style = { ...squares[i].style, backgroundColor: "#856312" }; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: i
@@ -187,7 +187,9 @@ export default class Game extends React.Component {
   }
 
   render() {
-
+    const divStyle = {
+      color: '#EFEFEF'
+    };
     return (
       <div>
         <div className="game">
@@ -198,7 +200,7 @@ export default class Game extends React.Component {
             />
           </div>
           <div className="game-info">
-            <h3>Turn</h3>
+            <h3 style={divStyle}>Turn</h3>
             <div id="player-turn-box" style={{ backgroundColor: this.state.turn }}>
 
             </div>
