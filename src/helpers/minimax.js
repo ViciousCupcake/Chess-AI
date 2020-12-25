@@ -1,6 +1,6 @@
 import Piece from "../pieces/piece";
 import InvalidDepthException from "./invalidDepthException";
-
+var b = 0;
 /**
  * Calculates the best move and plays it
  * @param {Piece[]} squares - Array representing the Pieces on the board
@@ -19,7 +19,7 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
     //todo: run code, pawn 54 to 38, 14 to 30
     // notice that in error, pawn 48 to 40 disappeared in map but not copyofmap- white side error- error in minimax not minimaxrunner
     // maybe try instead of making changes and undoing, make a copy and edit the copy
-    console.log("brrr");
+    //console.log("brrr");
     //console.log(squares);
 
     if (depth < 1) {
@@ -49,14 +49,10 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
         initialAliveSoldiers = new Set(whiteAliveSoldiers);
         outerMaximizingLoop:
         for (src of initialAliveSoldiers) {
-            for (dest of map.get(src).getPossibleMoves(src, squares)) {
+            for (dest of map.get(src).getPossibleMoves(src, map)) {
+                b++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
-
-
-                var copyMap = new Map(map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
-
 
                 // If destination results in opposite side losing a piece
                 if (blackAliveSoldiers.has(dest)) {
@@ -87,9 +83,6 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     bestSrc = src;
                 }
 
-                compareMaps(copyMap, map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
-
 
                 alpha = Math.max(alpha, bestMove);
                 if (alpha >= beta) {
@@ -102,14 +95,11 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
         initialAliveSoldiers = new Set(blackAliveSoldiers);
         outerMinimizingLoop:
         for (src of initialAliveSoldiers) {
-            for (dest of map.get(src).getPossibleMoves(src, squares)) {
+            for (dest of map.get(src).getPossibleMoves(src, map)) {
+                b++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
                 //var copyOfMap = new Map(map);
-
-
-                var copyMap = new Map(map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
 
 
                 // If destination results in opposite side losing a piece
@@ -135,17 +125,11 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
                     whiteFallenSoldiers.pop();
                     map.set(dest, lostPieceObj);
                 }
-                //console.log(compareMaps(map, copyOfMap));
                 if (score < bestMove) {
                     bestMove = score;
                     bestDest = dest;
                     bestSrc = src;
                 }
-
-
-                compareMaps(copyMap, map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
-
 
                 beta = Math.min(beta, bestMove);
                 if (beta <= alpha) {
@@ -157,6 +141,10 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
     console.log("Score: " + bestMove);
     console.log("Best Source: " + bestSrc);
     console.log("Best Destination: " + bestDest);
+    console.log("Repetitions: "+b);
+    self.handleClick(bestSrc);
+    self.handleClick(bestDest);
+    b = 0;
 }
 
 /**
@@ -173,7 +161,8 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
  * @param {Piece[]} squares - Array representing the Pieces on the board
  */
 function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth, player, alpha, beta, squares) {
-    console.log("brrrr");
+    //console.log("brrrr");
+
     if (depth < 1) {
         return evaluateScore(map, whiteAliveSoldiers, blackAliveSoldiers);
     }
@@ -190,15 +179,12 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
         initialAliveSoldiers = new Set(whiteAliveSoldiers);
         outerMaximizingLoop:
         for (src of initialAliveSoldiers) {
-            for (dest of map.get(src).getPossibleMoves(src, squares)) {
+            for (dest of map.get(src).getPossibleMoves(src, map)) {
+                b++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
                 // something wrong probably here?
                 // map isnt updating correctly
-
-
-                var copyMap = new Map(map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
 
 
                 // If destination results in opposite side losing a piece
@@ -229,9 +215,6 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
                 }
 
 
-                compareMaps(copyMap, map); // might be beneficial to switch the order to check sets first then maps
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
-
 
                 alpha = Math.max(alpha, bestMove);
                 if (alpha >= beta) {
@@ -244,17 +227,10 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
         initialAliveSoldiers = new Set(blackAliveSoldiers);
         outerMinimizingLoop:
         for (src of initialAliveSoldiers) {
-            for (dest of map.get(src).getPossibleMoves(src, squares)) {
+            for (dest of map.get(src).getPossibleMoves(src, map)) {
+                b++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
-
-
-
-                var copyMap = new Map(map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
-
-
-                //var copyOfMap = new Map(map);
                 // If destination results in opposite side losing a piece
                 if (whiteAliveSoldiers.has(dest)) {
                     whiteAliveSoldiers.delete(dest);
@@ -278,15 +254,9 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
                     whiteFallenSoldiers.pop();
                     map.set(dest, lostPieceObj);
                 }
-                //console.log(compareMaps(map, copyOfMap));
                 if (score < bestMove) {
                     bestMove = score;
                 }
-
-
-                compareMaps(copyMap, map);
-                compareMapsAndSets(map, whiteAliveSoldiers, blackAliveSoldiers);
-
 
                 beta = Math.min(beta, bestMove);
                 if (beta <= alpha) {
@@ -323,48 +293,4 @@ function swapInMap(map, a, b) {
     if (itemAtB !== undefined) {
         map.set(a, itemAtB);
     }
-}
-
-function compareMaps(map1, map2) {
-    var testVal;
-    if (map1.size !== map2.size) {
-        console.log(map1);
-        console.log(map2);
-        console.log("maps not equal");
-
-        return false;
-    }
-    for (var [key, val] of map1) {
-        testVal = map2.get(key);
-        // in cases of an undefined value, make sure the key
-        // actually exists on the object so there are no false positives
-        if (testVal !== val || (testVal === undefined && !map2.has(key))) {
-            console.log(map1);
-            console.log(map2);
-            console.log("maps not equal");
-            return false;
-        }
-    }
-    return true;
-}
-function compareMapsAndSets(map1, set1, set2) {
-    if (map1.size !== (set1.size + set2.size)) {
-        console.log("Differing sizes");
-        console.log(map1);
-        console.log(set1);
-        console.log(set2);
-        return false;
-    }
-    for (var [key, val] of map1) {
-        // in cases of an undefined value, make sure the key
-        // actually exists on the object so there are no false positives
-        if (!(set1.has(key) || set2.has(key))) {
-            console.log("Key not found");
-            console.log(map1);
-            console.log(set1);
-            console.log(set2);
-            return false;
-        }
-    }
-    return true;
 }
