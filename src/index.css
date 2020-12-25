@@ -57,15 +57,6 @@ ul {
 }
 
 
-.logo {
-  position: absolute;
-  left: 1vmin;
-  top: 1vmin;
-  font-size: 2vmin;
-  color: #EFEFEF;
-  transform: rotate(90deg);
-}
-
 
 .turn-label {
   color: #EFEFEF;
