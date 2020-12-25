@@ -141,11 +141,11 @@ export default class Game extends React.Component {
 
           //setTimeout(minimaxRunner, 50, "hello", "world", this, squares, whiteAliveSoldiers, blackAliveSoldiers);
 
-          if (player === 2) {
+          if (player === 1) {
             setTimeout(minimaxRunner, 50, squares,
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
-              1, 2, this);
+              3, 1, this);
           }
         }
       }
