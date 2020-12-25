@@ -219,10 +219,6 @@ export default class Game extends React.Component {
         <div className="icons-attribution">
           <div> <small> Chess Icons And Favicon (extracted) By en:User:Cburnett [<a href="http://www.gnu.org/copyleft/fdl.html">GFDL</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA-3.0</a>, <a href="http://opensource.org/licenses/bsd-license.php">BSD</a> or <a href="http://www.gnu.org/licenses/gpl.html">GPL</a>], <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces">via Wikimedia Commons</a> </small></div>
         </div>
-        <ul>
-          <li><a href="https://github.com/TalhaAwan/react-chess" target="_blank" rel="noreferrer">Source Code</a> </li>
-          <li><a href="https://www.techighness.com/post/develop-two-player-chess-game-with-react-js/" target="_blank" rel="noreferrer">Blog Post</a></li>
-        </ul>
       </div>
 
 
