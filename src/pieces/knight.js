@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameRow, isValidIndex } from '../helpers'
+import { isSameRow, isValidIndex } from '../helpers/index.js'
 
 export default class Knight extends Piece {
   constructor(player) {

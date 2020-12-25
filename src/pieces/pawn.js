@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameDiagonal, isValidIndex, isPathClean } from '../helpers'
+import { isSameDiagonal, isValidIndex, isPathClean } from '../helpers/index.js'
 
 export default class Pawn extends Piece {
   constructor(player) {

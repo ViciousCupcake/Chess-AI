@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameRow, isSameColumn, isPathClean, isValidIndex } from '../helpers'
+import { isSameRow, isSameColumn, isPathClean, isValidIndex } from '../helpers/index.js'
 
 export default class Rook extends Piece {
   constructor(player) {

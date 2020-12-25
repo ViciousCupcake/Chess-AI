@@ -3,24 +3,20 @@ const diagonalDictionaryTRBL = require('../dictionaries/diagonalTopRightBottomLe
 const rowDictionary = require('../dictionaries/row.json');
 const columnDictionary = require('../dictionaries/column.json');
 
-const isSameRow = (src, dest) => { // TODO: Make more efficient using math
+export const isSameRow = (src, dest) => { // TODO: Make more efficient using math
   return !!(rowDictionary[src] && rowDictionary[src][dest]);
 }
 
-const isSameColumn = (src, dest) => {
+export const isSameColumn = (src, dest) => {
   return !!(columnDictionary[src] && columnDictionary[src][dest]);
 }
 
-const isSameDiagonal = (src, dest) => {
+export const isSameDiagonal = (src, dest) => {
   return !!((diagonalDictionaryTLBR[src] && diagonalDictionaryTLBR[src][dest]) ||
     (diagonalDictionaryTRBL[src] && diagonalDictionaryTRBL[src][dest]))
 }
-/**
- * 
- * @param {Number[]} srcToDestPath 
- * @param {Map|Piece[]} squares 
- */
-const isPathClean = (srcToDestPath, squares) => {
+
+export const isPathClean = (srcToDestPath, squares) => {
   var out = undefined;
   if (squares instanceof Map) {
     out = srcToDestPath.reduce((acc, curr) => { return !squares.get(curr) && acc; }, true);
@@ -31,11 +27,11 @@ const isPathClean = (srcToDestPath, squares) => {
   return out;
 }
 
-const isValidIndex = (index) => {
+export const isValidIndex = (index) => {
   return index >= 0 && index <= 63;
 }
 
-const compareMaps = (map1, map2) => {
+export const compareMaps = (map1, map2) => {
   var testVal;
   if (map1.size !== map2.size) {
       console.log(map1);
@@ -57,7 +53,7 @@ const compareMaps = (map1, map2) => {
   }
   return true;
 }
-const compareMapsAndSets = (map1, set1, set2) => {
+export const compareMapsAndSets = (map1, set1, set2) => {
   if (map1.size !== (set1.size + set2.size)) {
       console.log("Differing sizes");
       console.log(map1);

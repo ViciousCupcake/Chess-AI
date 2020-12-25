@@ -1,5 +1,5 @@
 import Piece from './piece.js';
-import { isSameDiagonal, isPathClean } from '../helpers'
+import { isSameDiagonal, isPathClean } from '../helpers/index.js'
 
 export default class Bishop extends Piece {
   constructor(player) {
