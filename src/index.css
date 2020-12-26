@@ -63,7 +63,6 @@ body {
   color: #EFEFEF;
 }
 
-
 .icons-attribution {
   margin-bottom: 20px;
   color: #EFEFEF;
@@ -72,12 +71,9 @@ body {
 
 .game-status,
 .fallen-soldier-block {
-  /*margin-top: 20px;
-  min-height: 50px;*/
   margin-bottom: 20px;
 }
 
-/*Board color scheme Wheat from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html*/
 .dark-square {
   background-color: #c38800;
 }
@@ -139,20 +135,19 @@ a:visited {
   color: #EFEFEF;
 }
 
-
 .float-child:first-child {
   margin-right: 0px;
   flex: 25%;
 }
 
-.float-child:nth-child(2){
+.float-child:nth-child(2) {
   flex: 75%;
 }
 
 .console-text {
-  color:#EFEFEF;
+  color: #EFEFEF;
   font-size: 2.5vmin;
   margin-top: 1vmin;
   text-align: left;
-  line-height: 4vmin;
+  line-height: 3.5vmin;
 }
