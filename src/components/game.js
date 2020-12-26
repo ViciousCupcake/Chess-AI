@@ -1,5 +1,5 @@
 import React from 'react';
-import { GrReactjs, GrHeroku } from 'react-icons/gr';
+import { GrReactjs, GrHeroku, GrGithub } from 'react-icons/gr';
 
 
 import '../index.css';
@@ -244,7 +244,7 @@ export default class Game extends React.Component {
               Created by Jonathan Xu using <span className="react-icon"><GrReactjs /> React</span> and deployed to <span className="heroku-icon"><GrHeroku /> Heroku</span>.
               </p>
               <p>
-                <a href="https://github.com/ViciousCupcake/Chess-AI" target="_blank" rel="noreferrer">Source Code</a>
+                <a href="https://github.com/ViciousCupcake/Chess-AI" target="_blank" rel="noreferrer"> <GrGithub /> Source Code</a>
               </p>
             </div>
             <div>
