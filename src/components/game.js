@@ -1,4 +1,6 @@
 import React from 'react';
+import { GrReactjs, GrHeroku } from 'react-icons/gr';
+
 
 import '../index.css';
 import Board from './board.js';
@@ -147,7 +149,7 @@ export default class Game extends React.Component {
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
               4, 1, this);
           }
-          else{
+          else {
             setTimeout(minimaxRunner, 1000, squares,
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
@@ -216,7 +218,20 @@ export default class Game extends React.Component {
         </div>
 
         <div className="icons-attribution">
-          <div> <small> Chess Icons And Favicon (extracted) By en:User:Cburnett [<a href="http://www.gnu.org/copyleft/fdl.html">GFDL</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA-3.0</a>, <a href="http://opensource.org/licenses/bsd-license.php">BSD</a> or <a href="http://www.gnu.org/licenses/gpl.html">GPL</a>], <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces">via Wikimedia Commons</a> </small></div>
+          <div>
+            <div className="tech-used">
+              Created by Jonathan Xu using <span className="react-icon"><GrReactjs /> React</span> and deployed to <span className="heroku-icon"><GrHeroku /> Heroku</span>.
+            </div>
+            <div>
+              <small> Chess Icons And Favicon (extracted) By <a href="https://en.wikipedia.org/wiki/User:Cburnett" >en:User:Cburnett</a> [
+              <a href="http://www.gnu.org/copyleft/fdl.html" target="_blank" rel="noreferrer">GFDL</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer">CC-BY-SA-3.0</a>,
+              <a href="http://opensource.org/licenses/bsd-license.php" target="_blank" rel="noreferrer">BSD</a> or <a href="http://www.gnu.org/licenses/gpl.html" target="_blank" rel="noreferrer">GPL</a>],
+              <span> </span><a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces" target="_blank" rel="noreferrer">via Wikimedia Commons</a>.</small>
+            </div>
+            <div>
+              <small> Chess Board Created by <a href="https://www.techighness.com" target="_blank" rel="noreferrer">Talha Awan</a> [<a href="https://mit-license.org" target="_blank" rel="noreferrer">MIT License</a>]</small>
+            </div>
+          </div>
         </div>
       </div>
 

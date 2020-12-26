@@ -45,18 +45,24 @@ ul {
 }
 
 .game-board {
-  margin-top: 5vmin;
+  margin-top: 8vmin;
 }
 
 .logo {
-  position: absolute;
+  position: relative;
   left: 4vmin;
   top: 4vmin;
   font-size: 6vmin;
   color: #EFEFEF;
 }
 
-
+.subheader {
+  position: relative;
+  left: 4vmin;
+  top: 6vmin;
+  font-size: 3vmin;
+  color: #EFEFEF;
+}
 
 .turn-label {
   color: #EFEFEF;
@@ -76,8 +82,6 @@ ul {
   margin-bottom: 20px;
 }
 
-
-
 /*Board color scheme Wheat from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html*/
 .dark-square {
   background-color: #F1D592;
@@ -90,7 +94,6 @@ ul {
 .game {
   margin: auto;
   width: 56vmin;
-
 }
 
 .indiv-fallen-block {
@@ -98,6 +101,7 @@ ul {
   border-radius: 15px;
   margin: auto;
   width: 56vmin;
+  margin-bottom: 1vh;
   /*border: 3px solid #05f5ba;*/
 }
 
@@ -111,4 +115,20 @@ ul {
 
 h3 {
   margin-bottom: 5px;
+}
+
+a:link, a:visited {
+  color: #EFEFEF;
+}
+
+.react-icon{
+  color: cyan;
+}
+
+.heroku-icon{
+  color: purple;
+}
+
+.tech-used{
+  margin-bottom: 2vmin;
 }

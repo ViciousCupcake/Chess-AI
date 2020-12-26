@@ -20,7 +20,6 @@ export default class FallenSoldierBlock extends React.Component {
         <div className="board-row indiv-fallen-block">{this.props.whiteFallenSoldiers.map((ws, index) =>
           this.renderSquare(ws, index)
         )}</div>
-        <br></br>
         <div className="board-row indiv-fallen-block">{this.props.blackFallenSoldiers.map((bs, index) =>
           this.renderSquare(bs, index)
         )}</div>
