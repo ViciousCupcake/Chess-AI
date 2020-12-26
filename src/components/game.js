@@ -27,7 +27,12 @@ export default class Game extends React.Component {
       player: 1,
       sourceSelection: -1,
       status: '',
-      turn: 'white'
+      turn: 'white',
+      score: '0',
+      bestSrc: 'N/A',
+      bestDest: 'N/A',
+      computations: 'N/A',
+      depth: 4
     }
   }
   handleClick(i) {
@@ -147,13 +152,13 @@ export default class Game extends React.Component {
             setTimeout(minimaxRunner, 1000, squares,
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
-              4, 1, this);
+              this.state.depth, 1, this);
           }
           else {
             setTimeout(minimaxRunner, 1000, squares,
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
-              4, 2, this);
+              this.state.depth, 2, this);
           }
         }
       }
@@ -199,9 +204,24 @@ export default class Game extends React.Component {
             />
           </div>
           <div className="game-info">
-            <h3 className="turn-label">Turn</h3>
-            <div id="player-turn-box" style={{ backgroundColor: this.state.turn }}>
+            <div className="game-bottom-box">
+              <div className="float-child">
+                <h3 className="turn-label">Turn</h3>
+                <div id="player-turn-box" style={{ backgroundColor: this.state.turn }}>
+                </div>
+              </div>
 
+              <div className="float-child console-text">
+                <p>
+                  Best Starting Position: {this.state.bestSrc}
+                  <br></br>
+                  Best Ending Position: {this.state.bestDest}
+                  <br></br>
+                  Computations Performed: {this.state.computations}
+                  <br></br>
+                  Recursive Depth: {this.state.depth}
+                </p>
+              </div>
             </div>
             <div className="game-status">{this.state.status}</div>
 
@@ -220,7 +240,12 @@ export default class Game extends React.Component {
         <div className="icons-attribution">
           <div>
             <div className="tech-used">
+              <p>
               Created by Jonathan Xu using <span className="react-icon"><GrReactjs /> React</span> and deployed to <span className="heroku-icon"><GrHeroku /> Heroku</span>.
+              </p>
+              <p>
+                <a href="https://github.com/ViciousCupcake/Chess-AI" target="_blank" rel="noreferrer">Source Code</a>
+              </p>
             </div>
             <div>
               <small> Chess Icons And Favicon (extracted) By <a href="https://en.wikipedia.org/wiki/User:Cburnett" >en:User:Cburnett</a> [

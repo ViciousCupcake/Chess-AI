@@ -142,6 +142,13 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
     console.log("Best Source: " + bestSrc);
     console.log("Best Destination: " + bestDest);
     console.log("Repetitions: "+b);
+
+    self.setState(oldState => ({
+        score: bestMove,
+        bestSrc: toChessLocation(bestSrc),
+        bestDest: toChessLocation(bestDest),
+        computations: b
+      }));
     self.handleClick(bestSrc);
     self.handleClick(bestDest);
     b = 0;
@@ -293,4 +300,10 @@ function swapInMap(map, a, b) {
     if (itemAtB !== undefined) {
         map.set(a, itemAtB);
     }
+}
+
+function toChessLocation(index){
+    var row = 8 - Math.floor(index / 8);
+    var col = index % 8;
+    return String.fromCharCode(65+col)+row;
 }

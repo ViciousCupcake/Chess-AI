@@ -4,11 +4,6 @@ body {
   background-color: #000000;
 }
 
-ol,
-ul {
-  padding-left: 30px;
-}
-
 .board-row:after {
   clear: both;
   content: "";
@@ -84,11 +79,11 @@ ul {
 
 /*Board color scheme Wheat from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html*/
 .dark-square {
-  background-color: #F1D592;
+  background-color: #c38800;
 }
 
 .light-square {
-  background-color: #c38800;
+  background-color: #F1D592;
 }
 
 .game {
@@ -97,7 +92,7 @@ ul {
 }
 
 .indiv-fallen-block {
-  background-color: rgb(215, 236, 254);
+  background-color: rgb(224, 239, 252);
   border-radius: 15px;
   margin: auto;
   width: 56vmin;
@@ -117,18 +112,47 @@ h3 {
   margin-bottom: 5px;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   color: #EFEFEF;
 }
 
-.react-icon{
+.react-icon {
   color: cyan;
 }
 
-.heroku-icon{
+.heroku-icon {
   color: purple;
 }
 
-.tech-used{
+.tech-used {
   margin-bottom: 2vmin;
+}
+
+.game-bottom-box {
+  display: flex;
+
+  width: 100%;
+}
+
+.game-info-box {
+  color: #EFEFEF;
+}
+
+
+.float-child:first-child {
+  margin-right: 0px;
+  flex: 25%;
+}
+
+.float-child:nth-child(2){
+  flex: 75%;
+}
+
+.console-text {
+  color:#EFEFEF;
+  font-size: 2.5vmin;
+  margin-top: 1vmin;
+  text-align: left;
+  line-height: 4vmin;
 }
