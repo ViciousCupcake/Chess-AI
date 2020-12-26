@@ -1,6 +1,7 @@
 import Piece from "../pieces/piece";
 import InvalidDepthException from "./invalidDepthException";
-var b = 0;
+import { toChessLocation } from "./index"
+var computationsPerformed = 0;
 /**
  * Calculates the best move and plays it
  * @param {Piece[]} squares - Array representing the Pieces on the board
@@ -14,14 +15,6 @@ var b = 0;
  * @throws Exception if depth < 1
  */
 export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth, player, self) {
-    //helloWorld();
-    //debugger;
-    //todo: run code, pawn 54 to 38, 14 to 30
-    // notice that in error, pawn 48 to 40 disappeared in map but not copyofmap- white side error- error in minimax not minimaxrunner
-    // maybe try instead of making changes and undoing, make a copy and edit the copy
-    //console.log("brrr");
-    //console.log(squares);
-
     if (depth < 1) {
         throw new InvalidDepthException();
     }
@@ -50,7 +43,7 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
         outerMaximizingLoop:
         for (src of initialAliveSoldiers) {
             for (dest of map.get(src).getPossibleMoves(src, map)) {
-                b++;
+                computationsPerformed++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
 
@@ -96,12 +89,9 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
         outerMinimizingLoop:
         for (src of initialAliveSoldiers) {
             for (dest of map.get(src).getPossibleMoves(src, map)) {
-                b++;
+                computationsPerformed++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
-                //var copyOfMap = new Map(map);
-
-
                 // If destination results in opposite side losing a piece
                 if (whiteAliveSoldiers.has(dest)) {
                     whiteAliveSoldiers.delete(dest);
@@ -141,17 +131,17 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
     console.log("Score: " + bestMove);
     console.log("Best Source: " + bestSrc);
     console.log("Best Destination: " + bestDest);
-    console.log("Repetitions: "+b);
+    console.log("Repetitions: " + computationsPerformed);
 
     self.setState(oldState => ({
         score: bestMove,
         bestSrc: toChessLocation(bestSrc),
         bestDest: toChessLocation(bestDest),
-        computations: b
-      }));
+        computations: computationsPerformed
+    }));
     self.handleClick(bestSrc);
     self.handleClick(bestDest);
-    b = 0;
+    computationsPerformed = 0;
 }
 
 /**
@@ -168,8 +158,6 @@ export default function minimaxRunner(squares, whiteAliveSoldiers, blackAliveSol
  * @param {Piece[]} squares - Array representing the Pieces on the board
  */
 function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldiers, blackFallenSoldiers, depth, player, alpha, beta, squares) {
-    //console.log("brrrr");
-
     if (depth < 1) {
         return evaluateScore(map, whiteAliveSoldiers, blackAliveSoldiers);
     }
@@ -187,13 +175,9 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
         outerMaximizingLoop:
         for (src of initialAliveSoldiers) {
             for (dest of map.get(src).getPossibleMoves(src, map)) {
-                b++;
+                computationsPerformed++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
-                // something wrong probably here?
-                // map isnt updating correctly
-
-
                 // If destination results in opposite side losing a piece
                 if (blackAliveSoldiers.has(dest)) {
                     blackAliveSoldiers.delete(dest);
@@ -220,9 +204,6 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
                 if (score > bestMove) {
                     bestMove = score;
                 }
-
-
-
                 alpha = Math.max(alpha, bestMove);
                 if (alpha >= beta) {
                     break outerMaximizingLoop;
@@ -235,7 +216,7 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
         outerMinimizingLoop:
         for (src of initialAliveSoldiers) {
             for (dest of map.get(src).getPossibleMoves(src, map)) {
-                b++;
+                computationsPerformed++;
                 lostPiece = undefined;
                 lostPieceObj = undefined;
                 // If destination results in opposite side losing a piece
@@ -302,8 +283,3 @@ function swapInMap(map, a, b) {
     }
 }
 
-function toChessLocation(index){
-    var row = 8 - Math.floor(index / 8);
-    var col = index % 8;
-    return String.fromCharCode(65+col)+row;
-}

@@ -8,12 +8,6 @@ import King from '../pieces/king'
 import FallenSoldierBlock from './fallen-soldier-block.js';
 import { initialiseChessBoard, getInitialSoldierIndices } from '../helpers/board-initialiser.js';
 import minimaxRunner from '../helpers/minimax';
-import Knight from '../pieces/knight';
-import Pawn from '../pieces/pawn';
-import Bishop from '../pieces/bishop';
-import Queen from '../pieces/queen';
-import Rook from '../pieces/rook';
-import Piece from '../pieces/piece';
 
 export default class Game extends React.Component {
   constructor() {
@@ -35,18 +29,13 @@ export default class Game extends React.Component {
       depth: 4
     }
   }
+
+  /**
+   * Runs Chess Logic when Player clicks the board
+   * @param {Number} i - The location on the board that the user selected
+   */
   handleClick(i) {
     const squares = [...this.state.squares];
-    if (!!squares[i] && squares[i] instanceof Piece) {
-      //console.log(squares[i].getPossibleMoves(i, squares));
-      /*console.log(squares[i].getValue());
-      console.log("White");
-      console.log(this.state.whiteAliveSoldiers);
-      console.log("Black");
-      console.log(this.state.blackAliveSoldiers);*/
-
-      //squares[i].isBetweenLeftRightBoundary(0,0);
-    }
     if (this.state.sourceSelection === -1) { // If no piece is already selected (i.e. first click)
       if (!squares[i] || squares[i].player !== this.state.player) { // If player selected null piece or a piece that isn't under control of player
         this.setState({ status: "Wrong selection. Choose player " + this.state.player + " pieces." });
@@ -55,7 +44,8 @@ export default class Game extends React.Component {
         }
       }
       else {
-        squares[i].style = { ...squares[i].style, backgroundColor: "#856312" }; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
+        // Player clicked a piece to move
+        squares[i].style = { ...squares[i].style, backgroundColor: "#856312" };
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: i
@@ -64,6 +54,7 @@ export default class Game extends React.Component {
       return
     }
 
+    // remove background color
     squares[this.state.sourceSelection].style = { ...squares[this.state.sourceSelection].style, backgroundColor: "" };
 
     // Prevent moving piece on top of another piece of the same color
@@ -79,11 +70,10 @@ export default class Game extends React.Component {
       const blackFallenSoldiers = [];
       const whiteAliveSoldiers = this.state.whiteAliveSoldiers;
       const blackAliveSoldiers = this.state.blackAliveSoldiers;
-      var index = 1000;
 
       const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, squares);
       if (isMovePossible) {
-        if (squares[i] !== null) {
+        if (squares[i] !== null) { // If piece kills an opponent's piece
           if (squares[i].player === 1) {
             whiteFallenSoldiers.push(squares[i]);
             // Remove dead piece from aliveSoldiers array
@@ -94,6 +84,8 @@ export default class Game extends React.Component {
             // Remove dead piece from aliveSoldiers array
             blackAliveSoldiers.delete(i);
           }
+
+          // Game over if the piece that died is a King
           if (squares[i] instanceof King) {
             console.log("Game over");
             this.setState(oldState => ({
@@ -119,20 +111,10 @@ export default class Game extends React.Component {
           blackAliveSoldiers.add(i);
         }
 
-        const isCheckMe = this.isCheckForPlayer(squares, this.state.player);
-
-        // TODO: Fix ischeckmate, problem is that if king is check, you can move king but no other pieces.
-        /*if (isCheckMe) {
-          this.setState(oldState => ({
-            status: "Wrong selection. Choose valid source and destination again. Now you have a check!",
-            sourceSelection: -1,
-          }))
-        } else*/
         {
+          // Update turn
           let player = this.state.player === 1 ? 2 : 1;
           let turn = this.state.turn === 'white' ? 'black' : 'white';
-          // Probably minimax algorithm here or at end of function
-          // Let being checked be very bad when assigning score          
           this.setState(oldState => ({
             sourceSelection: -1,
             squares,
@@ -144,10 +126,8 @@ export default class Game extends React.Component {
             status: '',
             turn
           }));
-          //console.log(squares);
 
-          //setTimeout(minimaxRunner, 50, "hello", "world", this, squares, whiteAliveSoldiers, blackAliveSoldiers);
-
+          // Call minimax for opponent
           if (player === 1) {
             setTimeout(minimaxRunner, 1000, squares,
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
@@ -171,6 +151,11 @@ export default class Game extends React.Component {
     }
   }
 
+  /**
+   * Returns the index of the king (i.e. the king's location)
+   * @param {Piece[]} squares - The array representing the current state of the board
+   * @param {Number} player - The player ID of the King requested
+   */
   getKingPosition(squares, player) {
     return squares.reduce((acc, curr, i) =>
       acc || //King may be only one, if we had found it, returned his position
@@ -181,6 +166,11 @@ export default class Game extends React.Component {
       null)
   }
 
+  /**
+   * Returns true if player is Check, and false if not check.
+   * @param {Piece[]} squares - The array representing the current state of the board
+   * @param {Number} player - The player ID requested to check
+   */
   isCheckForPlayer(squares, player) {
     const opponent = player === 1 ? 2 : 1
     const playersKingPosition = this.getKingPosition(squares, player)
@@ -241,7 +231,7 @@ export default class Game extends React.Component {
           <div>
             <div className="tech-used">
               <p>
-              Created by Jonathan Xu using <span className="react-icon"><GrReactjs /> React</span> and deployed to <span className="heroku-icon"><GrHeroku /> Heroku</span>.
+                Created by Jonathan Xu using <span className="react-icon"><GrReactjs /> React</span> and deployed to <span className="heroku-icon"><GrHeroku /> Heroku</span>.
               </p>
               <p>
                 <a href="https://github.com/ViciousCupcake/Chess-AI" target="_blank" rel="noreferrer"> <GrGithub /> Source Code</a>

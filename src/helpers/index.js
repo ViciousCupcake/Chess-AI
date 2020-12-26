@@ -21,7 +21,7 @@ export const isPathClean = (srcToDestPath, squares) => {
   if (squares instanceof Map) {
     out = srcToDestPath.reduce((acc, curr) => { return !squares.get(curr) && acc; }, true);
   }
-  else{
+  else {
     out = srcToDestPath.reduce((acc, curr) => { return !squares[curr] && acc; }, true);
   }
   return out;
@@ -34,54 +34,50 @@ export const isValidIndex = (index) => {
 export const compareMaps = (map1, map2) => {
   var testVal;
   if (map1.size !== map2.size) {
+    console.log(map1);
+    console.log(map2);
+    console.log("maps not equal");
+
+    return false;
+  }
+  for (var [key, val] of map1) {
+    testVal = map2.get(key);
+    // in cases of an undefined value, make sure the key
+    // actually exists on the object so there are no false positives
+    if (testVal !== val || (testVal === undefined && !map2.has(key))) {
       console.log(map1);
       console.log(map2);
       console.log("maps not equal");
-
       return false;
-  }
-  for (var [key, val] of map1) {
-      testVal = map2.get(key);
-      // in cases of an undefined value, make sure the key
-      // actually exists on the object so there are no false positives
-      if (testVal !== val || (testVal === undefined && !map2.has(key))) {
-          console.log(map1);
-          console.log(map2);
-          console.log("maps not equal");
-          return false;
-      }
+    }
   }
   return true;
 }
+
 export const compareMapsAndSets = (map1, set1, set2) => {
   if (map1.size !== (set1.size + set2.size)) {
-      console.log("Differing sizes");
+    console.log("Differing sizes");
+    console.log(map1);
+    console.log(set1);
+    console.log(set2);
+    return false;
+  }
+  for (var [key, val] of map1) {
+    // in cases of an undefined value, make sure the key
+    // actually exists on the object so there are no false positives
+    if (!(set1.has(key) || set2.has(key))) {
+      console.log("Key not found");
       console.log(map1);
       console.log(set1);
       console.log(set2);
       return false;
-  }
-  for (var [key, val] of map1) {
-      // in cases of an undefined value, make sure the key
-      // actually exists on the object so there are no false positives
-      if (!(set1.has(key) || set2.has(key))) {
-          console.log("Key not found");
-          console.log(map1);
-          console.log(set1);
-          console.log(set2);
-          return false;
-      }
+    }
   }
   return true;
 }
 
-
-/*module.exports = {
-  isSameRow,
-  isSameColumn,
-  isSameDiagonal,
-  isPathClean,
-  isValidIndex,
-  compareMaps,
-  compareMapsAndSets
-}*/
+export const toChessLocation = (index) => {
+  var row = 8 - Math.floor(index / 8);
+  var col = index % 8;
+  return String.fromCharCode(65 + col) + row;
+}

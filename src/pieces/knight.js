@@ -34,14 +34,6 @@ export default class Knight extends Piece {
             (!squares[dest] /* not null*/ || squares[src].player !== squares[dest].player));
       }, false);
     }
-    /*return ((src - 17 === dest && !isSameRow(src, dest) && squares[src].player !== squares[dest].player) ||
-      (src - 10 === dest && !isSameRow(src, dest)) ||
-      (src + 6 === dest && !isSameRow(src, dest)) ||
-      (src + 15 === dest && !isSameRow(src, dest)) ||
-      (src - 15 === dest && !isSameRow(src, dest)) ||
-      (src - 6 === dest && !isSameRow(src, dest)) ||
-      (src + 10 === dest && !isSameRow(src, dest)) ||
-      (src + 17 === dest && !isSameRow(src, dest)))*/
   }
 
   getPossibleMoves(src, squares) {

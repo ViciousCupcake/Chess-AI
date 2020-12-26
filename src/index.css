@@ -22,8 +22,6 @@ body {
   font-weight: bold;
   line-height: 34px;
   height: 7vmin;
-  /*margin-right: -1px;
-  margin-top: -1px;*/
   padding: 0;
   text-align: center;
   width: 7vmin;
@@ -93,7 +91,6 @@ body {
   margin: auto;
   width: 56vmin;
   margin-bottom: 1vh;
-  /*border: 3px solid #05f5ba;*/
 }
 
 
