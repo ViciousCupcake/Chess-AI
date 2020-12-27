@@ -14,6 +14,7 @@ export default class Game extends React.Component {
     super();
     this.state = {
       squares: initialiseChessBoard(),
+      isPossibleMove: Array(64).fill(false),
       whiteFallenSoldiers: [],
       blackFallenSoldiers: [],
       whiteAliveSoldiers: getInitialSoldierIndices(1),
@@ -26,7 +27,8 @@ export default class Game extends React.Component {
       bestSrc: 'N/A',
       bestDest: 'N/A',
       computations: 'N/A',
-      depth: 4
+      depth: 4,
+      isGameOver: false
     }
   }
 
@@ -35,6 +37,10 @@ export default class Game extends React.Component {
    * @param {Number} i - The location on the board that the user selected
    */
   handleClick(i) {
+    if(this.state.isGameOver){
+      return;
+    }
+    console.log(this.state);
     const squares = [...this.state.squares];
     if (this.state.sourceSelection === -1) { // If no piece is already selected (i.e. first click)
       if (!squares[i] || squares[i].player !== this.state.player) { // If player selected null piece or a piece that isn't under control of player
@@ -46,6 +52,9 @@ export default class Game extends React.Component {
       else {
         // Player clicked a piece to move
         squares[i].style = { ...squares[i].style, backgroundColor: "#856312" };
+        squares[i].getPossibleMoves(i, squares).forEach((value) => {
+          this.state.isPossibleMove[value] = true;
+        });
         this.setState({
           status: "Choose destination for the selected piece",
           sourceSelection: i
@@ -56,6 +65,9 @@ export default class Game extends React.Component {
 
     // remove background color
     squares[this.state.sourceSelection].style = { ...squares[this.state.sourceSelection].style, backgroundColor: "" };
+    squares[this.state.sourceSelection].getPossibleMoves(this.state.sourceSelection, squares).forEach((value) => {
+      this.state.isPossibleMove[value] = false;
+    });
 
     // Prevent moving piece on top of another piece of the same color
     if (squares[i] && squares[i].player === this.state.player) {
@@ -65,7 +77,6 @@ export default class Game extends React.Component {
       });
     }
     else {
-
       const whiteFallenSoldiers = [];
       const blackFallenSoldiers = [];
       const whiteAliveSoldiers = this.state.whiteAliveSoldiers;
@@ -93,7 +104,8 @@ export default class Game extends React.Component {
               squares,
               whiteFallenSoldiers: [...oldState.whiteFallenSoldiers, ...whiteFallenSoldiers],
               blackFallenSoldiers: [...oldState.blackFallenSoldiers, ...blackFallenSoldiers],
-              status: this.state.turn.charAt(0).toUpperCase() + this.state.turn.slice(1) + " wins! Game Over!" // Capitalize the player name
+              status: this.state.turn.charAt(0).toUpperCase() + this.state.turn.slice(1) + " wins! Game Over!", // Capitalize the player name
+              isGameOver: true
             }));
             return;
           }
@@ -128,7 +140,7 @@ export default class Game extends React.Component {
           }));
 
           // Call minimax for opponent
-          if (player === 1) {
+          /*if (player === 1) {
             setTimeout(minimaxRunner, 1000, squares,
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
@@ -139,7 +151,7 @@ export default class Game extends React.Component {
               this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
               this.state.depth, 2, this);
-          }
+          }*/
         }
       }
       else {
@@ -191,6 +203,7 @@ export default class Game extends React.Component {
             <Board
               squares={this.state.squares}
               onClick={(i) => this.handleClick(i)}
+              isPossibleMove={this.state.isPossibleMove}
             />
           </div>
           <div className="game-info">

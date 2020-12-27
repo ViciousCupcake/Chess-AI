@@ -67,7 +67,11 @@ body {
   font-size: 2vmin;
 }
 
-.game-status,
+.game-status{
+  color: #EFEFEF;
+  margin-bottom: 10px;
+}
+
 .fallen-soldier-block {
   margin-bottom: 20px;
 }
@@ -78,6 +82,10 @@ body {
 
 .light-square {
   background-color: #F1D592;
+}
+
+.possible-move {
+  background-color: #EDE1CB
 }
 
 .game {
