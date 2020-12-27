@@ -5,6 +5,10 @@ import Pawn from '../pieces/pawn.js';
 import Queen from '../pieces/queen.js';
 import Rook from '../pieces/rook.js';
 
+/**
+ * Initializes the board and places the chess pieces where they belong
+ * @returns {Piece[]} An array representing the pieces that were generated
+ */
 export const initialiseChessBoard = () => {
   const squares = Array(64).fill(null);
 
@@ -35,6 +39,12 @@ export const initialiseChessBoard = () => {
 
   return squares;
 }
+
+/**
+ * Generates an Set representing the initial locations of pieces for a given player 
+ * @param {Number} player - A number representing the piece to get the initial soldier indices (1 -> white, 2 -> black)
+ * @returns {Set<Number>} The initial locations of the pieces for a given player
+ */
 export const getInitialSoldierIndices = (player) => {
   const output = new Set();
   var index = 1000;

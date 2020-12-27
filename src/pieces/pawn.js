@@ -11,7 +11,13 @@ export default class Pawn extends Piece {
       2: [8, 9, 10, 11, 12, 13, 14, 15]
     }
   }
-
+  /**
+   * returns true if a move is possible
+   * @param {number} src - starting position, represented as an index from 0..63
+   * @param {number} dest - ending position, represented as an index from 0..63
+   * @param {Piece[]|Map} squares - array or map representing locations of chess pieces
+   * @returns {Boolean} if a move is possible
+   */
   isMovePossible(src, dest, squares) {
     var isDestEnemyOccupied = undefined;
     var isDestinationOK = undefined;
@@ -43,6 +49,12 @@ export default class Pawn extends Piece {
     return false;
   }
 
+  /**
+   * Generates an array representing the indices that the piece can move to
+   * @param {number} src - starting position, represented as an index from 0..63
+   * @param {Piece[]|Map} squares - array or map representing locations of chess pieces
+   * @returns {Number[]} An array representing the indices that the piece can move to
+   */
   getPossibleMoves(src, squares) {
     const possibleMoves = [];
     const possibleDifferences = {
@@ -62,10 +74,10 @@ export default class Pawn extends Piece {
   }
 
   /**
-   * returns array of one if pawn moves two steps, else returns empty array  
-   * @param  {number} src - initial position
-   * @param  {number} dest - ending position
-   * @return {number[]} array of indicies representing the path the pawn takes
+   * Generate an array of the indices that the piece will travel through between src and dest (src and dest exclusive)
+   * @param  {number} src - starting position, represented as an index from 0..63
+   * @param  {number} src - ending position, represented as an index from 0..63
+   * @return {number[]} The indicies that the piece will travel through
    */
   getSrcToDestPath(src, dest) {
     if (dest === src - 16) {

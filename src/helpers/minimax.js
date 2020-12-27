@@ -2,6 +2,7 @@ import Piece from "../pieces/piece";
 import InvalidDepthException from "./invalidDepthException";
 import { toChessLocation } from "./index"
 var computationsPerformed = 0;
+
 /**
  * Calculates the best move and plays it
  * @param {Piece[]} squares - Array representing the Pieces on the board
@@ -256,7 +257,12 @@ function minimax(map, whiteAliveSoldiers, blackAliveSoldiers, whiteFallenSoldier
     return bestMove;
 }
 
-// White is positive, black is negative
+/**
+ * Calculate the current score of the board, with white being positive and black being negative
+ * @param {ap<Number, Piece>} map - The Map representing the pieces on the board
+ * @param {Set<Number>} whiteAliveSoldiers - The indices of the alive white pieces on the board
+ * @param {Set<Number>} blackAliveSoldiers - The indices of the alive black pieces on the board
+ */
 function evaluateScore(map, whiteAliveSoldiers, blackAliveSoldiers) {
     var sum = 0;
     //console.log(map);
@@ -269,6 +275,12 @@ function evaluateScore(map, whiteAliveSoldiers, blackAliveSoldiers) {
     return sum;
 }
 
+/**
+ * Swaps two keys in a map, even if the mapping is undefined
+ * @param {Map<Number, Piece>} map - The Map of which the keys should be swapped
+ * @param {*} a - The first key of the value to be swapped
+ * @param {*} b - The second key of the value to be swapped
+ */
 function swapInMap(map, a, b) {
     //console.log(map instanceof Map);
     var itemAtA = map.get(a);
