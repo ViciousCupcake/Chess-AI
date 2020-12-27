@@ -21,7 +21,7 @@ export default class Game extends React.Component {
       blackAliveSoldiers: getInitialSoldierIndices(2),
       player: 1,
       sourceSelection: -1,
-      status: '',
+      status: 'Your turn! To get started, click a white chess piece and click again on a highlighted square to place it there. If there are no highlighted squares, it means the piece you picked has no valid moves, so try another piece!',
       turn: 'white',
       score: '0',
       bestSrc: 'N/A',
