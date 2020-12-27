@@ -95,7 +95,7 @@ a:visited {
 
 .possible-move {
   /*background-color: #EDE1CB*/
-  background-color: aquamarine;
+  background-color: rgb(136, 211, 186);
 }
 
 .game {
