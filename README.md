@@ -2,6 +2,8 @@
 
 An implementation of the [Minimax Algorithm](https://en.wikipedia.org/wiki/Minimax), optimized with [Alpha Beta (α-β) Pruning](https://en.wikipedia.org/wiki/Alpha–beta_pruning).
 
+Try it out at https://chess.jonathan-xu.com!
+
 Created with [React](https://reactjs.org) and deployed onto [Heroku](https://heroku.com).
 
 ## How to Run and Build Locally
