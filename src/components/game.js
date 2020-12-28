@@ -152,6 +152,12 @@ export default class Game extends React.Component {
               this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
               this.state.depth, 2, this);
           }*/
+          if (player === 2) {
+            setTimeout(minimaxRunner, 1000, squares,
+              this.state.whiteAliveSoldiers, this.state.blackAliveSoldiers,
+              this.state.whiteFallenSoldiers, this.state.blackFallenSoldiers,
+              this.state.depth, 2, this);
+          }
         }
       }
       else {
