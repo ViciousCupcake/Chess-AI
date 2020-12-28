@@ -37,7 +37,7 @@ export default class Game extends React.Component {
    * @param {Number} i - The location on the board that the user selected
    */
   handleClick(i) {
-    if(this.state.isGameOver){
+    if (this.state.isGameOver) {
       return;
     }
     console.log(this.state);
@@ -99,6 +99,8 @@ export default class Game extends React.Component {
           // Game over if the piece that died is a King
           if (squares[i] instanceof King) {
             console.log("Game over");
+            squares[i] = squares[this.state.sourceSelection];
+            squares[this.state.sourceSelection] = null;
             this.setState(oldState => ({
               sourceSelection: -1,
               squares,
@@ -107,7 +109,6 @@ export default class Game extends React.Component {
               status: this.state.turn.charAt(0).toUpperCase() + this.state.turn.slice(1) + " wins! Game Over!", // Capitalize the player name
               isGameOver: true
             }));
-            return;
           }
         }
 
@@ -122,8 +123,7 @@ export default class Game extends React.Component {
           blackAliveSoldiers.delete(this.state.sourceSelection);
           blackAliveSoldiers.add(i);
         }
-
-        {
+        if (!this.state.isGameOver) {
           // Update turn
           let player = this.state.player === 1 ? 2 : 1;
           let turn = this.state.turn === 'white' ? 'black' : 'white';
